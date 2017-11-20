@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 public class KeywordLibrary {
@@ -167,8 +169,73 @@ public class KeywordLibrary {
 		}
 
 	}
+	
+	//incomplete
+	public static void selectMultiList(String param1, String param2, String param3)
+	{
+		Actions action = new Actions(driver);
+		try 
+		{			
+			action.keyDown(Keys.CONTROL);
+			switch (param1)
+			{
+			case "name":
+				Select select_name = new Select(driver.findElement(By.name(objectRepo.getProperty(param2))));
+				select_name.selectByVisibleText(param3);
+				break;
+			case "id":
+				Select select_id = new Select(driver.findElement(By.id(objectRepo.getProperty(param2))));
+				select_id.selectByVisibleText(param3);
+				break;
+			case "css":
+				Select select_css = new Select(driver.findElement(By.cssSelector(objectRepo.getProperty(param2))));
+				select_css.selectByVisibleText(param3);
+				break;
+			case "xpath":
+				Select select_xpath = new Select(driver.findElement(By.xpath(objectRepo.getProperty(param2))));
+				select_xpath.selectByVisibleText(param3);
+				break;
+			}
+			action.keyUp(Keys.CONTROL);
+			result = "Passed";
+		} catch(Exception e) {
+			action.keyUp(Keys.CONTROL);
+			result = "Failed";
+		}
+
+	}
 
 	public static void verifyText(String param1, String param2, String param3)
+	{
+		boolean flag = false;
+		try 
+		{
+			switch (param1)
+			{
+			case "name":
+				flag = driver.findElement(By.name(objectRepo.getProperty(param2))).getText().equals(param3);
+				break;
+			case "id":
+				flag = driver.findElement(By.id(objectRepo.getProperty(param2))).getText().equals(param3);
+				break;
+			case "css":
+				flag = driver.findElement(By.cssSelector(objectRepo.getProperty(param2))).getText().equals(param3);
+				break;
+			case "xpath":
+				flag = driver.findElement(By.xpath(objectRepo.getProperty(param2))).getText().equals(param3);
+				break;
+			}
+			
+			if(flag)
+				result = "Passed";
+			else 
+				result = "Failed";
+		} catch(Exception e) {
+			result = "Failed";
+		}
+	}
+	
+	public static void verifyBuffer(String param1, String param2, String param3)
 	{
 		boolean flag = false;
 		try 
@@ -220,6 +287,7 @@ public class KeywordLibrary {
 			}
 			else
 			{
+				//for selecting by value (in case value is provided ) 
 				List<WebElement> elements = new ArrayList<WebElement>();
 			switch (param1)
 			{
@@ -238,6 +306,7 @@ public class KeywordLibrary {
 			}
 			for(WebElement element : elements)
 			{
+				System.out.println(element.getText());
 				if(element.getAttribute("value").equals(param3))
 				{
 					element.click();
@@ -271,6 +340,7 @@ public class KeywordLibrary {
 					break;
 				case "xpath":
 					driver.findElement(By.xpath(objectRepo.getProperty(param2))).click();
+					System.out.println("found it");
 					break;
 				}
 			}
@@ -289,7 +359,7 @@ public class KeywordLibrary {
 				elements = driver.findElements(By.cssSelector(objectRepo.getProperty(param2)));
 				break;
 			case "xpath":
-				elements = driver.findElements(By.xpath(objectRepo.getProperty(param2)));
+				elements = driver.findElements(By.xpath(objectRepo.getProperty(param2)));				
 				break;
 			}
 			for(WebElement element : elements)
@@ -303,6 +373,7 @@ public class KeywordLibrary {
 			
 			result = "Passed";
 		} catch(Exception e) {
+			e.printStackTrace();
 			result = "Failed";
 		}
 	}
@@ -335,6 +406,36 @@ public class KeywordLibrary {
 		}
 
 	}
+	
+	//incomplete
+	public static String bufferText(String param1, String param2, String param3)
+	{
+		String text = null;
+		try 
+		{
+			switch (param1)
+			{
+			case "name":
+				text = driver.findElement(By.name(objectRepo.getProperty(param2))).getText();
+				break;
+			case "id":
+				text = driver.findElement(By.id(objectRepo.getProperty(param2))).getText();
+				break;
+			case "css":
+				text = driver.findElement(By.cssSelector(objectRepo.getProperty(param2))).getText();
+				break;
+			case "xpath":
+				text = driver.findElement(By.xpath(objectRepo.getProperty(param2))).getText();
+			}
+			result = "Passed";
+			return text;
+		} catch(Exception e) {
+			result = "Failed";
+			return text;
+		}
+
+	}
+	
 
 
 }

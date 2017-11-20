@@ -27,6 +27,8 @@ public class MainClass {
 		
 		KeywordLibrary.loadProperties();
 		
+		HashMap<String, String> bufferMap = new HashMap<String, String>();
+		
 		for(int i = 1; i <= indexSheet.getLastRowNum(); i++)
 		{
 			indexRow = indexSheet.getRow(i);
@@ -43,6 +45,19 @@ public class MainClass {
 						KeywordLibrary.openBrowser();
 						WriteExcel.writeStatus(file, workbook, indexRow.getCell(0).getStringCellValue(), j + 1);
 						
+					}
+					else if(stepList.get(0).equals("bufferText"))
+					{
+						String value;
+						value = KeywordLibrary.bufferText(stepList.get(1), stepList.get(2), stepList.get(3));
+						bufferMap.put(stepList.get(3), value);
+						WriteExcel.writeStatus(file, workbook, indexRow.getCell(0).getStringCellValue(), j + 1);
+					}
+					else if(stepList.get(0).equals("verifyBuffer"))
+					{
+						String value = bufferMap.get(stepList.get(3));
+						KeywordLibrary.bufferText(stepList.get(1), stepList.get(2), value);
+						WriteExcel.writeStatus(file, workbook, indexRow.getCell(0).getStringCellValue(), j + 1);
 					}
 					else
 					{
