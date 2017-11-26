@@ -59,6 +59,13 @@ public class MainClass {
 						KeywordLibrary.bufferText(stepList.get(1), stepList.get(2), value);
 						WriteExcel.writeStatus(file, workbook, indexRow.getCell(0).getStringCellValue(), j + 1);
 					}
+					else if(stepList.get(0).equals("readPopup"))
+					{
+						String value;
+						value = KeywordLibrary.bufferText(stepList.get(1), stepList.get(2), stepList.get(3));
+						bufferMap.put(stepList.get(3), value);
+						WriteExcel.writeStatus(file, workbook, indexRow.getCell(0).getStringCellValue(), j + 1);
+					}
 					else
 					{
 						KeywordLibrary.callMethod(stepList.get(0), stepList.get(1), stepList.get(2), stepList.get(3));

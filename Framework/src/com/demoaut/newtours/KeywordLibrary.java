@@ -10,11 +10,14 @@ import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+
 
 public class KeywordLibrary {
 
@@ -170,7 +173,6 @@ public class KeywordLibrary {
 
 	}
 	
-	//incomplete
 	public static void selectMultiList(String param1, String param2, String param3)
 	{
 		Actions action = new Actions(driver);
@@ -385,19 +387,26 @@ public class KeywordLibrary {
 		{
 			switch (param1)
 			{
+			case "index":
+				driver.switchTo().frame(param3);
+				break;
+			case "framename":
+				driver.switchTo().frame(param3);
+				break;
+			case "frameid":
+				driver.switchTo().frame(param3);
+				break;
 			case "name":
-				driver.switchTo().frame(objectRepo.getProperty(param2));
+				driver.switchTo().frame(driver.findElement(By.name(objectRepo.getProperty(param2))));
 				break;
 			case "id":
-				driver.findElement(By.id(objectRepo.getProperty(param2))).click();
+				driver.switchTo().frame(driver.findElement(By.id(objectRepo.getProperty(param2))));
 				break;
 			case "css":
-				driver.findElement(By.cssSelector(objectRepo.getProperty(param2))).click();
-				System.out.println(driver.findElement(By.cssSelector(objectRepo.getProperty(param2))).getText());
+				driver.switchTo().frame(driver.findElement(By.cssSelector(objectRepo.getProperty(param2))));
 				break;
 			case "xpath":
-				driver.findElement(By.xpath(objectRepo.getProperty(param2))).click();
-				System.out.println(driver.findElement(By.xpath(objectRepo.getProperty(param2))).getText());
+				driver.switchTo().frame(driver.findElement(By.xpath(objectRepo.getProperty(param2))));
 				break;
 			}
 			result = "Passed";
@@ -407,7 +416,6 @@ public class KeywordLibrary {
 
 	}
 	
-	//incomplete
 	public static String bufferText(String param1, String param2, String param3)
 	{
 		String text = null;
@@ -436,6 +444,132 @@ public class KeywordLibrary {
 
 	}
 	
+	public static void takeSnapShot(String param1, String param2, String param3)
+	{
+		try 
+		{
+			TakesScreenshot scrShot = ((TakesScreenshot)driver);
+			File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
+			File destFile = new File(param3);
+			org.apache.commons.io.FileUtils.copyFile(srcFile, destFile);
+			
+		} catch(Exception e) {
+			result = "Failed";
+		}
+
+	}
+	
+	public static void uploadFile(String param1, String param2, String param3)
+	{
+		try 
+		{
+			switch (param1)
+			{
+			case "name":
+				driver.findElement(By.name(objectRepo.getProperty(param2))).sendKeys(param3);
+				break;
+			case "id":
+				driver.findElement(By.id(objectRepo.getProperty(param2))).sendKeys(param3);
+				break;
+			case "css":
+				driver.findElement(By.cssSelector(objectRepo.getProperty(param2))).sendKeys(param3);
+				break;
+			case "xpath":
+				driver.findElement(By.xpath(objectRepo.getProperty(param2))).sendKeys(param3);;
+			}
+			result = "Passed";
+		} catch(Exception e) {
+			result = "Failed";
+		}
+
+	}
+	
+	public static void acceptPopup(String param1, String param2, String param3)
+	{
+		try
+		{
+			driver.switchTo().alert().accept();
+			result = "Passed";
+		}catch (Exception e) {
+			result = "Failed";
+		}
+	}
+	
+	public static void dismissPopup(String param1, String param2, String param3)
+	{
+		try
+		{
+			driver.switchTo().alert().dismiss();
+			result = "Passed";
+		}catch (Exception e) {
+			result = "Failed";
+		}
+	}
+	
+	public static void writetPopup(String param1, String param2, String param3)
+	{
+		try
+		{
+			driver.switchTo().alert().sendKeys(param3);;
+			result = "Passed";
+		}catch (Exception e) {
+			result = "Failed";
+		}
+	}
+	
+	public static String readPopup(String param1, String param2, String param3)
+	{
+		String text = "";
+		try
+		{
+			text = driver.switchTo().alert().getText();
+			result = "Passed";
+			return text;
+		}catch (Exception e) {
+			result = "Failed";
+			return text;
+		}
+	}
+	
+	public static void verifyPopup(String param1, String param2, String param3)
+	{
+		try
+		{ 
+			if(driver.switchTo().alert().equals(param3))
+				result = "Passed";
+			else
+				result = "Failed";
+		}catch (Exception e) {
+			result = "Failed";
+		}
+	}
+	
+	public static void switchWindow(String param1, String param2, String param3)
+	{
+		try
+		{
+			if(param3.equals("null"))
+			{
+				for(String win : driver.getWindowHandles())
+				{
+					driver.switchTo().window(win);
+				}
+			}
+			else
+			{
+				for(String win : driver.getWindowHandles())
+				{
+					if(win.equals(param3))
+					{
+						driver.switchTo().window(win);
+					}
+				}
+			}
+			result = "Passed";
+		} catch(Exception e) {
+			result = "Failed";
+		}
+	}
 
 
 }
