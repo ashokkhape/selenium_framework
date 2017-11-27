@@ -4,9 +4,13 @@
 -The repository also contains a excel workbook which has sample test cases written in it.
 
 -More about excel workbook
+
 --First sheet is the index sheet which lists the names of all other sheets containing test cases.
+
 --Execution mode in the index sheet helps us in being selective w.r.t to the test cases to be executed.
+
 --Sheets other than index sheet are the sheets containing test cases to be executed.
+
 --Test case sheets are provided with five columns namely Keyword, Locator By, Locator Value,	Value	and Status.
 ---Keyword -> calls the keyword implemented in the framework
 ---Locator By -> locates the web element based upon value in this column e.g. name, id, css or xpath
