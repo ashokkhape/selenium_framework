@@ -1,6 +1,8 @@
 # selenium_framework
 -This repository contains a hybrid framework desined for the testing of web applications.
+
 -This framework makes use of Selenium webdriver and is programmed in Java.
+
 -The repository also contains a excel workbook which has sample test cases written in it.
 
 -More about excel workbook
@@ -12,10 +14,14 @@
 --Sheets other than index sheet are the sheets containing test cases to be executed.
 
 --Test case sheets are provided with five columns namely Keyword, Locator By, Locator Value,	Value	and Status.
+
 ---Keyword -> calls the keyword implemented in the framework
+
 ---Locator By -> locates the web element based upon value in this column e.g. name, id, css or xpath
+
 ---Locator Value -> is the name of the property variable in objectRepo.properties. objectRepo.properties is a properties file 
    in the framework folder where the actual value of locator will be assigned to a corresponding variable.
+
 ---Value -> to be provided in the located element.
 
 -Below is the list of keywords defined in the framework
